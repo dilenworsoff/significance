@@ -14,7 +14,13 @@ Home
   <h5 class="text-muted"><em>You must be logged in to start testing.</em></h5>
 
   <br>
-  <ul class="nav nav-pills ">
+  <ul class="nav nav-pills homenav">
+    <style>
+    .homenav li{
+      margin-left:10px;
+      margin-right:10px;
+    }
+    </style>
       {% if not user.is_authenticated %}
     <li class="nav-item">
       <a class="nav-link button btn btn-primary btn-lg homeli" href="/accounts/login/">Log In</a>
