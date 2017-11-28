@@ -24,20 +24,20 @@
 			<nav class="navbar navbar-expand-lg navbar-light bg-light nav-pills">
 				<div class="container">
 		  		<a class="navbar-brand" href="/">Statistical Significance Calculator</a>
-					<ul class="nav justify-content-end">
+					<ul class="nav justify-content-end flex-column flex-sm-row">
 						{% if not user.is_authenticated %}
-						<li class="nav-item">
+						<li class="nav-item flex-sm-fill">
 							<a class="nav-link active" href="/accounts/signup">Sign Up</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item flex-sm-fill">
 							<a class="nav-link" href="/accounts/login">Log In</a>
 						</li>
 						{% endif %}
 						{% if user.is_authenticated %}
-						<li class="nav-item">
+						<li class="nav-item flex-sm-fill">
 							<a class="nav-link" href="/my_tests/">Logged in as: {{user.username}}</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item flex-sm-fill">
 							<a class="nav-link" href="/accounts/logout">Log Out</a>
 						</li>
 						{% endif %}
