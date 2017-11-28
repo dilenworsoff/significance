@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'stats',
-    'test',
     'widget_tweaks',
     'bootstrap3',
 ]
