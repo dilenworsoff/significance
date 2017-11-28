@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath sigsite sigsite.wsgi --log-file -
+web: gunicorn --pythonpath sigsite sigsite.deploy --log-file -
