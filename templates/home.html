@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Welcome to the AB Test Calculator!
+{% endblock %}
+
+{% block pagetitle %}
+Home
+{% endblock %}
+
+{% block content %}
+
+  <h1 class="display-4">A/B statistical significance Calculator</h1>
+  <h5 class="text-muted"><em>You must be logged in to start testing.</em></h5>
+
+  <br>
+  <ul class="nav nav-pills ">
+      {% if not user.is_authenticated %}
+    <li class="nav-item">
+      <a class="nav-link button btn btn-primary btn-lg homeli" href="/accounts/login/">Log In</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+      <a class="nav-link button btn btn btn-outline-secondary btn-lg homeli" href="/all_tests/">See All Tests</a>
+    </li>
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+      <a class="nav-link button btn btn btn-outline-secondary btn-lg homeli" href="/my_tests/">See Your Tests</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+      {% if user.is_authenticated %}
+      <a class="nav-link button btn btn btn-primary btn-lg homeli" href="/new_test/">New Test</a>
+      {% endif %}
+      {% if not user.is_authenticated %}
+      <a class="nav-link button btn btn btn-outline-secondary btn-lg homeli" href="/new_test/">New Test</a>
+      {% endif %}
+
+    </li>
+  </ul>
+{% endblock %}

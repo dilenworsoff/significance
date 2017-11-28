@@ -1,0 +1,78 @@
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% load bootstrap3 %}
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+			<title>{% block title %} {% endblock %}</title>
+				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+				<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+				<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+			<link rel=stylesheet href={% static "css/layout.css" %}>
+</head>
+
+<body>
+	<div class="container-fluid" style="padding:0px">
+
+		<!--- Navbar ----------->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light nav-pills">
+				<div class="container">
+		  		<a class="navbar-brand" href="/">Statistical Significance Calculator</a>
+					<ul class="nav justify-content-end">
+						{% if not user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-link active" href="/accounts/signup">Sign Up</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/accounts/login">Log In</a>
+						</li>
+						{% endif %}
+						{% if user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-link" href="/my_tests/">Logged in as: {{user.username}}</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/accounts/logout">Log Out</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+		</nav>
+
+<!--- Page Title ----------->
+		{% if messages %}
+		<div class="alert alert-info">
+			<div class="container">
+				{% for message in messages %}
+				<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+
+		<div class="container">
+			<h1 class="display-2" style="border-bottom: solid 2px #f8f9fa; margin-top: 20px; margin-bottom: 20px">{% block pagetitle %}{% endblock %}</h1>
+		</div>
+
+
+<div class="container">
+{% block content %} {% endblock content %}
+</div>
+
+
+		<!--- footer ----------->
+			<div class="footer container-fluid bg-light" style="padding:15px 0px;">
+					<div class="container">
+						<p style="margin-bottom:0px;text-align:center;" class="text-secondary">created by Dilen Worsoff using django and bootstrap.</p>
+					</div>
+			</div>
+</div>
+
+</body>
+</html>

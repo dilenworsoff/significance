@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+All AB Tests
+{% endblock %}
+
+{% block pagetitle %}
+Your Tests
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Control Users</th>
+      <th scope="col">Control Conversions</th>
+      <th scope="col">Conversion Rate</th>
+      <th scope="col">Variant Users</th>
+      <th scope="col">Variant Conversions</th>
+      <th scope="col">Variant Conversion Rate</th>
+      <th scope="col">Date Conducted</th>
+      <th scope="col">Winner</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for test in my_tests %}
+    <tr>
+      <th scope="row">{{test.title}}</th>
+      <td>{{test.a_users}}</td>
+      <td>{{test.a_conversions}}</td>
+      <td>{{test.a_conversionrate}}%</td>
+      <td>{{test.b_users}}</td>
+      <td>{{test.b_conversions}}</td>
+      <td>{{test.b_conversionrate}}%</td>
+      <td>{{test.created_at}}</td>
+      <td>{{test.winner}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<div class="row">
+<a class="btn btn-primary col-12 btn-lg" href="/new_test/">Create A New Test</a>
+</div>
+<br><br>
+{% endblock %}

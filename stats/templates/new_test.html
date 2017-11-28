@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+{% load widget_tweaks %}
+{% load bootstrap3 %}
+
+{% block title %}
+Perform a New A/B Test
+{% endblock %}
+
+{% block pagetitle %}
+New Test
+{% endblock %}
+
+{% block content %}
+<div class="row" style="">
+  <form action="" method="POST" class="col-sm newform">
+
+    <!--message-->
+    {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!--endmessage-->
+
+   <label>Title</label>
+    {{ test.title|add_class:"form-control title"}}
+    <label>Control Users</label>
+    {{ test.a_users|add_class:"form-control a-users"}}
+    <label>Control Conversions</label>
+    {{ test.a_conversions|add_class:"form-control a-conv"}}
+    <label>Control Conversion Rate %</label>
+    {{ test.a_conversionrate|add_class:"form-control a-convrate"}}
+    <label>Variant Users</label>
+    {{ test.b_users|add_class:"form-control b-users"}}
+    <label>Variant Conversions</label>
+    {{ test.b_conversions|add_class:"form-control b-conv"}}
+    <label>Variant Conversion Rate %</label>
+    {{ test.b_conversionrate|add_class:"form-control b-convrate"}}
+    <label class="wintext">Winner <span class="text-secondary"></span></label>
+    {{ test.winner|add_class:"form-control winner"}}
+
+    {% csrf_token %}
+    <br>
+    <div style="text-align: center">
+    <button type="submit" class="btn btn-primary col-5">Save Test</button>
+    <a class="btn btn-secondary col-2" href="/all_tests/">View All Test</a>
+    <a class="btn btn-secondary col-2" href="/my_tests/">View Your Tests</a>
+    <br>
+    <br>
+    </div>
+  </div>
+
+  <script>
+
+  function sendAJAX(a,b,c){
+    $.get(a, b, c);
+  }
+
+$( ".a-users , .a-conv" ).keyup(function() {
+  var users = parseFloat($( ".a-users" ).val());
+  var conv = parseFloat($( ".a-conv" ).val());
+  var value = (conv/users)*100;
+  var rate = Math.round(value, 1);
+  if (users >= 0 && conv >= 0 && users > conv){
+        $( ".a-convrate" ).val( rate );
+  } else if (users >= 0 && conv >= 0 && users < conv) {
+    $( ".a-convrate" ).val( 0 );
+  } else {
+    $( ".a-convrate" ).val( 0 );
+  }
+}).keyup();
+
+$( ".b-users , .b-conv" ).keyup(function() {
+  var users = parseFloat($( ".b-users" ).val());
+  var conv = parseFloat($( ".b-conv" ).val());
+  var value = (conv/users)*100;
+  var rate = Math.round(value, 1);
+  if (users >= 0 && conv >= 0 && users > conv){
+        $( ".b-convrate" ).val( rate );
+  } else if (users >= 0 && conv >= 0 && users < conv) {
+    $( ".b-convrate" ).val( 0 );
+  } else {
+    $( ".b-convrate" ).val( 0 );
+  }
+}).keyup();
+
+
+$( ".a-users , .a-conv , .b-conv , .b-users " ).keyup(function() {
+  var usersa = parseFloat($( ".a-users" ).val());
+  var usersb = parseFloat($( ".b-users" ).val());
+  var aconv = parseFloat($( ".a-convrate" ).val());
+  var bconv = parseFloat($( ".b-convrate" ).val());
+  if(aconv > bconv && usersa > 0 && usersb > 0){
+    $(".winner").val("Control")
+  } else if (aconv == bconv && usersa > 0 && usersb > 0) {
+    $(".winner").val("None")
+  } else if (aconv < bconv && usersa > 0 && usersb > 0) {
+    $(".winner").val("Variant")
+  } else {
+    $(".winner").val("")
+  }
+}).keyup();
+
+$( ".a-users , .a-conv , .b-conv , .b-users " ).keyup(function() {
+  var usersa = parseFloat($( ".a-users" ).val());
+  var conva = parseFloat($( ".a-conv" ).val());
+  var valuea = (conva/usersa)*100;
+  var usersb = parseFloat($( ".b-users" ).val());
+  var convb = parseFloat($( ".b-conv" ).val());
+  var valueb = (convb/usersb)*100;
+  if (usersa >= 0 && conva >= 0 && usersa > conva && usersb >= 0 && convb >= 0 && usersb > convb){
+  var url = '/get_names/';
+  var data = {
+    "control_users":usersa,
+    "control_conversions":conva,
+    "variant_users":usersb,
+    "variant_conversions":convb,
+  };
+  var callback = function (response){
+    console.log(response.signif);
+    if (response.signif > 0) {
+      $(".wintext span").text("(your test result is significant!" + " p-value: " + response.p_value +" )");
+    } else {
+      $(".wintext span").text("(your test result is not significant!" + " p-value: " + response.p_value + " )");
+    }
+  };
+
+  sendAJAX(url, data, callback);
+
+  }
+}).keyup();
+
+
+  </script>
+  </form>
+{% endblock %}
