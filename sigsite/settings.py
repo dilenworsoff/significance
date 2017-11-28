@@ -139,7 +139,7 @@ STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, "assets"),
 )
 
-STATIC_ROOT  = '/Users/dilen/desKtop/calculator/sigsite/static'
+STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGIN_REDIRECT_URL = "/"
 SITE_ID = 1
